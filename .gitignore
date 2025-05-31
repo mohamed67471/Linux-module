@@ -1,0 +1,5 @@
+# Minimal Windows .gitignore for Bandit solutions
+Thumbs.db        # Windows thumbnail cache
+desktop.ini      # Windows folder settings
+*.tmp            # Temporary files
+~$*.doc*         # Office temp files (if you use docs)
