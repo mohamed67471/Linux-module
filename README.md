@@ -60,5 +60,18 @@ cat./-file07 = to show content of file 7
 
 passward :4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
 
+# Bandit Level 5 → Level 6
+Level Goal
+The password for the next level is stored in a file somewhere under the inhere directory and has all of the following properties:
+
+human-readable
+1033 bytes in size
+not executable
+
+# solution 
+find . ! -executable -size 1033c = finds files that are not exexcutable and has size of 1033 
+ cat ./inhere/maybehere07/.file2 - to read file 
+
+passward: HWasnPhtq9AVKe0dmk45nxy20cvUa6EG
 
 
