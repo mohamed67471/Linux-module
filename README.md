@@ -51,6 +51,14 @@ cat "...Hiding-From-You" to list acount of that file , which should give you the
 Level Goal
 The password for the next level is stored in the only human-readable file in the inhere directory. Tip: if your terminal is messed up, try the “reset” command.
 # solution 
+ls 
+cd inhere 
+strings ./*  as This command extracts human-readable ASCII and ./* this looks of all files in current directectory 
+# solution 2 
+file ./* - should show file07 as ascii text 
+cat./-file07 = to show content of file 7 
+
+passward :4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
 
 
 
