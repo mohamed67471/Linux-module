@@ -147,12 +147,74 @@ Level Goal
 The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work. Use mkdir with a hard to guess directory name. Or better, use the command “mktemp -d”. Then copy the datafile using cp, and rename it using mv (read the manpages!
 
 # solution 
-mkdir temp 
-cp ~/data.txt /tmp/tmp.NzsUCW4HjW$
+mktemp -d 
+cp ~/data.txt /tmp/tmp.dgxpX3z8du
 then 
  mv data.txt file1
- 
+then dont if file is gzip, bzip2 or POSIX tar so we will start with gzip decompress 
+ mv file1.txt file1.gz
+gunzip file1.gz
+still showing as ascii text looks like file is hexadump so i will convert back to binary 
+xxd -r file1.gz>file2 
 
+file file2 = shows its gzip 
+mv file2 file2.gz 
+gunzip file2.gz 
+file 2 is now bzip 
+so 
+mv  mv file2 file2.bz
+ bunzip2 file2.bz
 
+now file is gzip rename and decompress again 
+once done file show be posix tar -  mv file2 file2.tar
+tar -xf file2.tar
+file is posic tar but name as data5.bin  , so change name by - mv data5.bin data5.tar then tar -xf data5.tar
+new file data6.bin which is bzip change name then bunzip 
+its now posix tar so do the same thing again change name and decompress 
+then its gzip called data8.bin show change name and decompress should give data8 file which contains the passward 
+passward : FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn 
+
+# Bandit Level 13 → Level 14
+Level Goal
+The password for the next level is stored in /etc/bandit_pass/bandit14 and can only be read by user bandit14. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level. Note: localhost is a hostname that refers to the machine you are working on
+# solution 
+ ls 
+ sshkey.private 
+ssh -i sshkey.private bandit14@localhost -p 2220
+# Bandit Level 14 → Level 15
+Level Goal
+The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.**#
+# solution 
+cat /etc/bandit_pass/bandit14
+MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS 
+ cat /etc/bandit_pass/bandit14 | nc localhost 30000 to send passward to port 30000
+passward : 8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
+
+# bandit Level 15 → Level 16
+Level Goal
+The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL/TLS encryption.
+
+Helpful note: Getting “DONE”, “RENEGOTIATING” or “KEYUPDATE”? Read the “CONNECTED COMMANDS” section in the manpage.
+
+# solution 
+originally tried this echo " 8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo" | openssl s_client -connect localhost:30001
+however this gave to much output so had to add -quite 
+ echo "8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo" | openssl s_client -quiet -connect localhost:30001
+passward: kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx 
+# Bandit Level 16 → Level 17
+Level Goal
+The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL/TLS and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.
+
+# solution
+nmap localhost -p 31000-32000 to find out which ports are opened 
+ nmap localhost -p 31046,31518,31691,31790,31960 -sV -T4
+this tells nmap to scan these ports and know service version on each port and time is go to be 4
+dint use t5 as its to agressive and might miss data 
+ports which are open and speak ssl = 31790 and 31518 
+cat /etc/bandit_pass/bandit16
+kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
+openssl s_client -connect localhost:31518 this is not correct one as it sends back whatever you send 
+openssl s_client -connect localhost:31790 
+ echo  "kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx" |  openssl s_client -connect localhost:31790 -quiet
 
 
